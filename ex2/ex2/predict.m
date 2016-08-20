@@ -16,12 +16,20 @@ p = zeros(m, 1);
 %
 
 
-
-
-
-
+    g = @(s) sigmoid(s * theta);
+    t = table(X);
+    t = rowfun(@(x)( cond(g(x)) ), t);
+    p = t.Var1;
 
 % =========================================================================
 
 
+end
+
+function c = cond(x)
+    if x < 0.5
+        c = 0;
+    else
+        c = 1;
+    end
 end
