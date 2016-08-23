@@ -73,6 +73,23 @@ J = (1/m) * sum(sum(difference));
 J = J + lambda * (sum(sum(Theta1(: , 2:end).^2)) + ...
                   sum(sum(Theta2(: , 2:end).^2))) / (2 * m);
 
+Delta1 = zeros(size(Theta1));
+Delta2 = zeros(size(Theta2));
+for sample = 1:m
+    a1 = [1 ; X(sample, :)'];	% input layer & bias term
+    z2 = Theta1 * a1;
+    a2 = [1 ; sigmoid(z2)]	% inner layer
+    a3 = sigmoid(Theta2 * a2);  % output layer
+
+    d3 = a3 - ([1:num_labels]' == y(sample));
+    d2 = (Theta2' * d3);
+    d2 = d2(2:end) .* sigmoidGradient(z2);
+    Delta2 = Delta2 + d3 * a2';
+    Delta1 = Delta1 + d2 * a1';
+end
+
+Theta1_grad = Delta1 ./ m;
+Theta2_grad = Delta2 ./ m;
 
 % -------------------------------------------------------------
 
