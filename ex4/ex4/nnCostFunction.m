@@ -88,8 +88,11 @@ for sample = 1:m
     Delta1 = Delta1 + d2 * a1';
 end
 
-Theta1_grad = Delta1 ./ m;
-Theta2_grad = Delta2 ./ m;
+
+Theta1_grad = Delta1 ./ m + (lambda / m) .* ...
+                            [zeros(hidden_layer_size, 1) Theta1(:, 2:end)];
+Theta2_grad = Delta2 ./ m + (lambda / m) .* ...
+                            [zeros(num_labels, 1) Theta2(:, 2:end)];
 
 % -------------------------------------------------------------
 
