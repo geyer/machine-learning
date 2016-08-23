@@ -62,22 +62,16 @@ Theta2_grad = zeros(size(Theta2));
 %               and Theta2_grad from Part 2.
 %
 
+h1 = sigmoid([ones(m, 1) X] * Theta1');
+h2 = sigmoid([ones(m, 1) h1] * Theta2');
+y_vectorised = zeros(size(h2));
+for sample = 1:m
+    y_vectorised(sample, :) = [1:num_labels] == y(sample);
+difference = (-y_vectorised .* log(h2) - (1 - y_vectorised) .* log(1 - h2));
+J = (1/m) * sum(sum(difference));
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+J = J + lambda * (sum(sum(Theta1(: , 2:end).^2)) + ...
+                  sum(sum(Theta2(: , 2:end).^2))) / (2 * m);
 
 
 % -------------------------------------------------------------
