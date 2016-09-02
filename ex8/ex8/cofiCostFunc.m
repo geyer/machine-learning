@@ -46,14 +46,9 @@ J = sum(sum( diff(R == 1).^2 )) / 2;
 X_grad = (diff .* (R == 1)) * Theta;
 Theta_grad = (diff' .* (R' == 1)) * X;
 
-
-
-
-
-
-
-
-
+J = J + (lambda / 2) * sum(sum( Theta.^2 )) + (lambda / 2) * sum(sum( X.^2 ));
+X_grad = X_grad + lambda * X;
+Theta_grad = Theta_grad + lambda * Theta;
 
 
 % =============================================================
